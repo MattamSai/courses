@@ -1,7 +1,13 @@
 import { DataTypes, Model } from "sequelize";
 
 export default (sequelize)=>{
-    class CourseModel extends Model{}
+    class CourseModel extends Model{
+        static associate (models){
+            CourseModel.belongsTo(models.UserModel,{
+                foreignKey:"userId"
+            })
+        }
+    }
     CourseModel.init({
         id:{
             type:DataTypes.INTEGER,

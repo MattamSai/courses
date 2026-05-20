@@ -1,8 +1,14 @@
 import { DataTypes, Model } from "sequelize";
 
 export default (sequelize)=>{
-    class UserLoginModel extends Model{}
-    UserLoginModel.init({
+    class UserModel extends Model{
+        static associate(models){
+            UserModel.hasMany(models.CourseModel,{
+                foreignKey:"userId"
+            })
+        }
+    }
+    UserModel.init({
         id:{
             type:DataTypes.INTEGER,
             allowNull:false,
@@ -13,6 +19,11 @@ export default (sequelize)=>{
             type:DataTypes.STRING,
             allowNull:false
         },
+        userEmail:{
+            type:DataTypes.STRING,
+            allowNull:false,
+            unique:true
+        },
         userPassword:{
             type:DataTypes.STRING,
             allowNull:false
@@ -22,5 +33,5 @@ export default (sequelize)=>{
         underscored:true,
         sequelize
     })
-    return UserLoginModel
+    return UserModel
 }
