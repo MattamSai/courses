@@ -1,24 +1,25 @@
 import { useState } from "react"
-import axios from "axios"
+import { api } from "../utils/api.js"
+import { NavLink, useNavigate } from "react-router-dom"
 
 function UserRegister(){
 
     const [userName,setUserName]=useState("")
     const [userEmail,setUserEmail]=useState("")
     const [userPassword,setUserPassword]=useState("")
+    const navigate = useNavigate()
 
-    const register = (e)=>{
-
+    const register = async (e)=>{
         e.preventDefault()
-        axios.post(`http://localhost:3000/user/register`,{
+        const response = await api.post(`/user/register`,{
             userEmail,
             userName,
             userPassword
-        }).then((data)=>{
-            console.log("data",data)
-        }).catch((error)=>{
-            console.log(error)
         })
+        const {token}=response.data
+        localStorage.setItem("token",token)
+        useNavigate('/homepage')
+        console.log('data',data)
     }
 
     return (
@@ -76,7 +77,7 @@ function UserRegister(){
                     </button>
 
                 </div>
-
+                <NavLink to="/">Login</NavLink>
             </div>
 
         </form>

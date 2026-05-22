@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import UserLoginModel from "../models/indexModel.js";
-import { configDotenv } from "dotenv";
-configDotenv();
+import { UserModel } from "../models/indexModel.js";
+// import { configDotenv } from "dotenv";
+import { generateToken } from "../utils/generateToken.js";
+// configDotenv();
 
 class UserController {
 
@@ -15,7 +16,7 @@ class UserController {
             });
         }
 
-        const user = await UserLoginModel.findOne({
+        const user = await UserModel.findOne({
             where: {
                 userEmail,
             },
@@ -38,9 +39,8 @@ class UserController {
             });
         }
 
-        const token = await jwt.sign(
-            { id: user.id, userEmail: user.userEmail },
-            process.env.JWT_SECRET_KEY,
+        const token = await generateToken(
+            { id: user.id, userEmail: user.userEmail }
         );
         if (!token) {
             return res.status(400).send({
@@ -49,13 +49,39 @@ class UserController {
             });
         }
 
+        res.cookie("token",token,{
+            httpOnly:true,
+            secure:false,
+            sameSite:'lax'
+        })
+
         return res.status(200).json({
             success: "true",
-            data: user,
-            token,
+            data: user
         });
     }
 
+    static async getProfile(req,res) {
+        const {user}=req
+        if(!user){
+            return res.status(400).send({
+                success:false,
+                data:"unable to get data of user"
+            })
+        }
+        return res.status(200).send({
+            success:true,
+            data:user
+        })
+    }
+
+    static async logoutUser(req,res) {
+        res.clearCookie("token")
+        return res.send({
+            success:true,
+            data:"user has been logged out"
+        });
+    }
 }
 
 export default UserController;

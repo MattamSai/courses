@@ -1,7 +1,7 @@
-function Home (){
-
+function Home() {
+    
     return (
-        <div>
+        <div className="bg-white p-8 h-screen w-full">
             <h1>Welcome to Home Page</h1>
             <p>Available list of courses</p>
             <div>
@@ -12,6 +12,6 @@ function Home (){
                 <li>AWS</li>
             </div>
         </div>
-    )
+    );
 }
-export default Home
+export default Home;

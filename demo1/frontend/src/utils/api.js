@@ -1,0 +1,18 @@
+import axios from "axios";
+
+export const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL,
+    withCredentials: true,
+});
+
+api.interceptors.response.use(
+    (res) => {
+        return res;
+    },
+    (error) => {
+        if (!error.response.success) {
+            window.location.href = "/login";
+        }
+        return Promise.reject(error);
+    },
+);

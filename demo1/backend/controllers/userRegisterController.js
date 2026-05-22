@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import {UserModel} from "../models/indexModel.js"
+import { generateToken } from "../utils/generateToken.js"
 
 async function UserRegisterController(req,res){
     const {userName,userEmail,userPassword} = req.body
@@ -33,6 +34,20 @@ async function UserRegisterController(req,res){
         userEmail,
         userPassword:hash
     })
+    const token = await generateToken({id:user.id,userEmail:user.userEmail})
+    if (!token) {
+        return res.status(400).send({
+            success: false,
+            data: "taken genartion failed",
+        });
+    }
+    
+    res.cookie("token",token,{
+        httpOnly:true,
+        secure:false,
+        sameSite:'lax'
+    });
+
     return res.status(200).send({
         success:true,
         data:user
