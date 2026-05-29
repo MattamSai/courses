@@ -20,7 +20,7 @@ export default (sequelize)=>{
             allowNull:false
         },
         data:{
-            type:DataTypes.STRING
+            type:DataTypes.TEXT
         }
     },{
         tableName:'course',

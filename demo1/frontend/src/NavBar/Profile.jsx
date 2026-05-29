@@ -3,12 +3,10 @@ import { api } from "../utils/api.js";
 function Profile() {
     const [data, setData] = useState("");
     useEffect(() => {
-        console.log("check")
         const fetchProfile = async () => {
             try {
                 const response = await api.get(`/user/getProfile`);
                 if (response.data.success) {
-                    console.log("data", response);
                     setData(response.data.data);
                 }
             } catch (error) {

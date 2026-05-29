@@ -11,7 +11,7 @@ function Navbar () {
         <div className="flex w-full h-24 bg-blue-400">
             <div className="flex justify-around w-2/3 mt-6">
                 <NavLink to={'/home'} className={({isActive})=>isActive? 'text-white':'text-black'}> Home </NavLink>
-                <NavLink to={'/course'} className={({isActive})=>isActive ? 'text-white' : 'text-black'}> Course </NavLink>
+                <NavLink to={`/selectcourse`} className={({isActive})=>isActive? 'text-white':'text-black'}> Course </NavLink>
                 <NavLink to={'/history'} className={({isActive})=> isActive ? 'text-white' : 'text-black'}> History </NavLink>
             </div>
             <div className=" flex w-full justify-between">

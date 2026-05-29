@@ -19,7 +19,6 @@ function UserRegister(){
         const {token}=response.data
         localStorage.setItem("token",token)
         useNavigate('/homepage')
-        console.log('data',data)
     }
 
     return (

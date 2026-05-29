@@ -1,47 +1,38 @@
-import { useEffect, useState } from "react"
-import { Navigate } from "react-router-dom"
-import { api } from "./api"
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { api } from "./api";
 
-function ProtectedRoute({children}){
+function ProtectedRoute({ children }) {
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-    const [isAuthenticated,setIsAuthenticated] =useState(null)
-
-    useEffect(()=>{
-
+    useEffect(() => {
         const verifyUser = async () => {
+            try {
+                const response = await api.get("/user-verify");
 
-            try{
-
-                const response =
-                    await api.get('/user-verify')
-
-                if(response.data.success){
-                    setIsAuthenticated(true)
-                }else{
-                    setIsAuthenticated(false)
+                if (response.data.success) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
                 }
+            } catch (error) {
 
-            }catch(error){
-
-                setIsAuthenticated(false)
-
+                setIsAuthenticated(false);
             }
+        };
 
-        }
+        verifyUser();
+    }, []);
 
-        verifyUser()
-
-    },[])
-
-    if(isAuthenticated === null){
-        return <div>Loading...</div>
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>;
     }
 
-    if(!isAuthenticated){
-        return <Navigate to="/login"/>
+    if (!isAuthenticated) {
+        return <Navigate to="/login" />;
     }
 
-    return children
+    return children;
 }
 
-export default ProtectedRoute
+export default ProtectedRoute;

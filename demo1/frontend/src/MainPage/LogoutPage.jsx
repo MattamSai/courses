@@ -3,7 +3,7 @@ import { api } from "../utils/api.js"
 
 function Logout (){
     const navigate=useNavigate()
-    const logout = async(e)=>{
+    const logout = async()=>{
         try {
             const response = await api.post(`/user/logout`)
         if(response.data.success){
