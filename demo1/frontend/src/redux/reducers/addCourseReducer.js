@@ -1,4 +1,4 @@
-import { ADD_COURSE_ERROR, ADD_COURSE_STARTING, ADD_COURSES } from "../constants.js";
+import { ADD_COURSE, ADD_COURSE_ERROR, ADD_COURSE_STARTING } from "../constants.js";
 
 let initialState = {
     data:[],
@@ -14,7 +14,7 @@ function addCourseReducer (state=initialState,action) {
             ...state,
             loading:true
         }
-        case ADD_COURSES : return {
+        case ADD_COURSE : return {
             loading:false,
             loaded:true,
             data:action.payload.data.map((data)=>{

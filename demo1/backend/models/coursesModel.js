@@ -21,6 +21,10 @@ export default (sequelize)=>{
         },
         data:{
             type:DataTypes.TEXT
+        },
+        isActive:{
+            type:DataTypes.INTEGER,
+            allowNull:false
         }
     },{
         tableName:'course',

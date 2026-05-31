@@ -27,6 +27,10 @@ export default (sequelize)=>{
         userPassword:{
             type:DataTypes.STRING,
             allowNull:false
+        },
+        isActive:{
+            type:DataTypes.INTEGER,
+            allowNull:false
         }
     },{
         tableName:'user_login',
