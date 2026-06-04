@@ -15,6 +15,7 @@ function Home({courses,actions}) {
         actions.getCourses()
     },[])
 
+    console.log('courses',courses)
     useEffect(()=>{
         if(courses.loaded){
             actions.getCourses()
@@ -62,6 +63,7 @@ function Home({courses,actions}) {
 }
 
 const mapStatetoprops = (state)=>{
+    console.log('sta',state)
     return {
         courses:state.getCourse
     }

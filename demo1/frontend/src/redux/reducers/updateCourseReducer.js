@@ -1,13 +1,7 @@
 import { UPDATE_COURSE, UPDATE_COURSE_ERROR, UPDATE_COURSE_STARTING } from "../constants.js"
+import { initialState } from "../initialState.js"
 
-let initialState = {
-    data:[],
-    loading:false,
-    loaded:false,
-    error:null
-}
-
-function updateCourseReducer (state=initialState,action) {
+function updateCourseReducer (state=initialState.courses,action) {
     console.log('Reducer action',action)
     switch(action.type){
         case UPDATE_COURSE_STARTING: return {

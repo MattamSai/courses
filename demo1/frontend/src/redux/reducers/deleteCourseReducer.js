@@ -1,13 +1,7 @@
 import { DELETE_COURSE, DELETE_COURSE_ERROR, DELETE_COURSE_STARTING } from "../constants.js"
+import { initialState } from "../initialState.js"
 
-let initialState = {
-    data=[],
-    loading:false,
-    loaded:false,
-    error:null
-}
-
-function deleteCourseReducer(state=initialState,action) {
+function deleteCourseReducer(state=initialState.courses,action) {
     switch(action.type){
         case DELETE_COURSE_STARTING: return {
             ...state,

@@ -8,6 +8,7 @@
     "ioredis": "^5.10.1",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
+    "multer": "^2.1.1",
     "mysql2": "^3.22.3",
     "pm2": "^7.0.1",
     "sequelize": "^6.37.8"

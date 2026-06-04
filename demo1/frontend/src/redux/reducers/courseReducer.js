@@ -1,13 +1,7 @@
 import { GET_COURSE_ERROR, GET_COURSE_STARTING, GET_COURSES } from "../constants.js";
+import { initialState } from "../initialState.js";
 
-let initialState = {
-    data:[],
-    loading:false,
-    loaded:false,
-    error:null
-}
-
-function courseReducer (state=initialState,action){
+function courseReducer (state=initialState.courses,action){
     switch(action.type){
         case GET_COURSE_STARTING :
             return {

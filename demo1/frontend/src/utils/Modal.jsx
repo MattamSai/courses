@@ -25,7 +25,7 @@ function Modal({
 
           <button
             onClick={onClose}
-            className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
+            className="h-10 w-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition cursor-pointer"
           >
             <X size={20} />
           </button>
@@ -37,17 +37,17 @@ function Modal({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-3 px-8 py-5 border-t bg-gray-50">
+        <div className="flex justify-between gap-3 px-8 py-5 border-t bg-gray-50">
           <button
             onClick={onClose}
-            className="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition"
+            className="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-100 transition cursor-pointer"
           >
             Cancel
           </button>
 
           <button
             onClick={onSubmit}
-            className={`px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transition
+            className={`px-6 py-2.5 rounded-xl text-white font-semibold shadow-lg transition cursor-pointer
               ${
                 actionText === "Delete"
                   ? "bg-red-600 hover:bg-red-700"

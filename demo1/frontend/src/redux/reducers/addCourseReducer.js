@@ -1,13 +1,7 @@
 import { ADD_COURSE, ADD_COURSE_ERROR, ADD_COURSE_STARTING } from "../constants.js";
+import { initialState } from "../initialState.js";
 
-let initialState = {
-    data:[],
-    loading:false,
-    loaded:false,
-    error:null
-}
-
-function addCourseReducer (state=initialState,action) {
+function addCourseReducer (state=initialState.courses,action) {
     console.log('actions',action.payload)
     switch(action.type){
         case ADD_COURSE_STARTING : return {
