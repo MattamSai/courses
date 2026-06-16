@@ -4,11 +4,11 @@ export default (sequelize) => {
     class CourseModel extends Model {
         static associate(models) {
             CourseModel.belongsTo(models.UserModel, {
-                foreignKey: "userId",
+                foreignKey: "user_id",
             });
 
             CourseModel.belongsTo(models.MediaModel, {
-                foreignKey: "thumbnailMediaId",
+                foreignKey: "thumbnail_media_id",
             });
         }
     }
@@ -29,7 +29,7 @@ export default (sequelize) => {
             },
             isActive: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             },
         },
         {

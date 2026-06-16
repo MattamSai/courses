@@ -2,48 +2,42 @@ import { useEffect, useState } from "react";
 import { api } from "../utils/api.js";
 import UploadUserProfile from "./UploadUserProfile.jsx";
 import * as mediaActions from "../redux/actions/mediaActions.js";
+import * as userActions from "../redux/actions/userActions.js"
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-function Profile({ media, actions }) {
+function Profile({ media, user, actions }) {
     const [data, setData] = useState("");
     const [clickUpload, setClickUpload] = useState(false);
 
+    console.log('action',actions)
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await api.get(`/user/getProfile`);
-                if (response.data.success) {
-                    setData(response.data.data);
-                }
-            } catch (error) {
-                setData("unable to get data");
-            }
-        };
-        fetchProfile();
-    }, []);
-
-    useEffect(() => {
+        actions.getUser()
         actions.getMedia();
     }, []);
 
+    console.log('user',user);
     console.log("media", media);
 
     const mediaData = media?.data?.data?.[0];
 
     let userData = (
-        <div className="flex gap-3 mt-4">
-            {mediaData && <img
+        <div className="flex gap-3 mt-4 items-start">
+            <img
                 className="w-12 h-12 rounded-full object-cover"
-                src={`http://localhost:3000/${mediaData.storageKey.replace(/\\/g, "/")}`}
+                src={mediaData?.storageKey ? `http://localhost:3000/${mediaData.storageKey.replace(/\\/g, "/")}` : `/src/assets/profileDefault.jpg`}
                 alt="profile"
-            />}
+                onError={(e)=>{
+                    e.currentTarget.onerror = null
+                    e.currentTarget.src = '/src/assets/profileDefault.jpg'
+                }}
+            />
 
-            <span>{data.userEmail}</span>
+            <span className="text-white mt-1">{user?.data?.userEmail}</span>
 
             <button
                 onClick={() => setClickUpload(true)}
-                className="cursor-pointer"
+                className="cursor-pointer text-white "
             >
                 +
             </button>
@@ -78,14 +72,16 @@ function Profile({ media, actions }) {
 }
 
 const mapStatetoprops = (state) => {
+    console.log('sa',state)
     return {
         media: state.getMedia,
+        user:state.getUser
     };
 };
 
 const mapDispatchtoprops = (dispatch) => {
     return {
-        actions: bindActionCreators(mediaActions, dispatch),
+        actions: bindActionCreators({...mediaActions,...userActions}, dispatch),
     };
 };
 

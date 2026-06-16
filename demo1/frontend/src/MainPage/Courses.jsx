@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Navigate, NavLink, useNavigate, useParams } from "react-router-dom";
 import EditCoursesModal from "./EditCoursesModal.jsx";
 import DeleteCoursesModal from "./DeleteCoursesModal.jsx";
+import { Loader } from "lucide-react";
 
 function Courses({ courses, actions }) {
     const [name, setName] = useState("");
@@ -16,6 +17,8 @@ function Courses({ courses, actions }) {
 
     const { id } = useParams();
     const navigate = useNavigate();
+
+    <Loader/>
 
     let courseData = null;
     useEffect(() => {
@@ -32,7 +35,15 @@ function Courses({ courses, actions }) {
         setOpenDelete(true);
     };
 
-    courseData = (
+
+    if(courses.loading){
+        courseData=(
+            <Loader/>
+        )
+    }
+    
+    if(courses.loaded) {
+        courseData = (
         <div className="p-2 m-2">
             <div className="text-bold">List of all the Available Courses</div>
             <div className="flex gap-2 mt-4">
@@ -87,6 +98,10 @@ function Courses({ courses, actions }) {
             })}
         </div>
     );
+}
+    console.log('loading',courses.loading)
+    console.log('loaded',courses.loaded)
+    console.log('course',courses)
     return (
         <div className="bg-white w-full h-full">
             {courseData}

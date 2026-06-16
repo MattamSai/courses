@@ -11,7 +11,7 @@ function updateMediaReducer (state=initialState.media,action){
             ...state,
             loading:false,
             loaded:true,
-            data:action.payload.data.map((data)=>{ data.id === action.payload.data.id ? action.payload.data : data})
+            data:state.data.map((data)=>{ data.id === action.payload.data.id ? action.payload.data : data})
         }
         case UPDATE_MEDIA_ERROR : return {
             ...state,

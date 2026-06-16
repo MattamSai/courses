@@ -9,7 +9,7 @@ export const connect = new Sequelize(process.env.DATABASE_NAME
     dialect:'mysql',
     host:process.env.HOST,
     port:process.env.DB_PORT,
-    logging:false
+    logging: false,
 })
 
 try {

@@ -11,7 +11,7 @@ function deleteMediaReducer (state= initialState.media,action) {
             ...state,
             loading:false,
             loaded:true,
-            data:action.payload.data.filter((data)=> data.id != action.payload.data.id)
+            data:state.data.filter((data)=> data.id != action.payload.data.id)
         }
         case DELETE_COURSE_ERROR:return {
             ...state,

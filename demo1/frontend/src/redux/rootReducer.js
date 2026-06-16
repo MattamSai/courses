@@ -7,6 +7,10 @@ import getMediaReducer from "./reducers/getMediaReducer.js";
 import addMediaReducer from "./reducers/addMediaReducer.js";
 import updateMediaReducer from "./reducers/updateMediaReducer.js";
 import deleteMediaReducer from "./reducers/deleteMediaReducer.js";
+import { getUserReducer } from "./reducers/userReducers/getUsersReducer.js";
+import { addUserReducer } from "./reducers/userReducers/addUserReducer.js";
+import { updateUserReducer } from "./reducers/userReducers/updateUserReducer.js";
+import { deleteUserReducer } from "./reducers/userReducers/deleteUserReducer.js";
 
 export const reducer = combineReducers({
     getCourse:courseReducer,
@@ -16,5 +20,9 @@ export const reducer = combineReducers({
     getMedia:getMediaReducer,
     addMedia:addMediaReducer,
     updateMedia:updateMediaReducer,
-    deleteMedia:deleteMediaReducer
+    deleteMedia:deleteMediaReducer,
+    getUser:getUserReducer,
+    addUser:addUserReducer,
+    updateUser:updateUserReducer,
+    deleteUser:deleteUserReducer
 })

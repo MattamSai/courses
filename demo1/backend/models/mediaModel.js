@@ -4,7 +4,7 @@ export default (sequelize) => {
   class MediaModel extends Model {
     static associate(models) {
       MediaModel.belongsTo(models.UserModel, {
-        foreignKey: "updatedBy",
+        foreignKey: "updated_by",
       });
     }
   }
@@ -44,7 +44,7 @@ export default (sequelize) => {
       },
       updatedBy: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
       },
 
       isActive: {

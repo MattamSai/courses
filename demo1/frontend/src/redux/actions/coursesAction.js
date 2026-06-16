@@ -1,5 +1,18 @@
 import { api } from "../../utils/api.js";
-import { ADD_COURSE, ADD_COURSE_ERROR, ADD_COURSE_STARTING, DELETE_COURSE, DELETE_COURSE_ERROR, DELETE_COURSE_STARTING, GET_COURSE_ERROR, GET_COURSE_STARTING, GET_COURSES, UPDATE_COURSE, UPDATE_COURSE_ERROR, UPDATE_COURSE_STARTING } from "../constants.js";
+import {
+    ADD_COURSE,
+    ADD_COURSE_ERROR,
+    ADD_COURSE_STARTING,
+    DELETE_COURSE,
+    DELETE_COURSE_ERROR,
+    DELETE_COURSE_STARTING,
+    GET_COURSE_ERROR,
+    GET_COURSE_STARTING,
+    GET_COURSES,
+    UPDATE_COURSE,
+    UPDATE_COURSE_ERROR,
+    UPDATE_COURSE_STARTING,
+} from "../constants.js";
 
 const getCoursesStarting = () => {
     return {
@@ -7,17 +20,17 @@ const getCoursesStarting = () => {
     };
 };
 
-const getCoursesSuccess = (data)=>{
+const getCoursesSuccess = (data) => {
     return {
-        type:GET_COURSES,
-        payload:data
+        type: GET_COURSES,
+        payload: data,
     };
 };
 
-const getCoursesError = (err)=>{
+const getCoursesError = (err) => {
     return {
-        type:GET_COURSE_ERROR,
-        payload:err
+        type: GET_COURSE_ERROR,
+        payload: err,
     };
 };
 
@@ -25,14 +38,16 @@ export const getCourses = (data) => {
     return async (dispatch) => {
         dispatch(getCoursesStarting());
         try {
-            api.get(`/courses/getCourse`).then((response) => {
-                const { data } = response;
-                console.log(data)
-                dispatch(getCoursesSuccess(data));
-            }).catch((error) => {
-                console.log(error.message);
-                dispatch(getCoursesError(error.message));
-            });
+            api.get(`/courses/getCourse`)
+                .then((response) => {
+                    const { data } = response;
+                    console.log(data);
+                    dispatch(getCoursesSuccess(data));
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    dispatch(getCoursesError(error.message));
+                });
         } catch (error) {
             console.log(error.message);
             dispatch(getCoursesError(error.message));
@@ -40,107 +55,109 @@ export const getCourses = (data) => {
     };
 };
 
-function addCourseStarting () {
+function addCourseStarting() {
     return {
-        type:ADD_COURSE_STARTING
-    }
+        type: ADD_COURSE_STARTING,
+    };
 }
 
-function addCourseSucccess (data) {
+function addCourseSucccess(data) {
     return {
-        type : ADD_COURSE,
-        payload:data
-    }
+        type: ADD_COURSE,
+        payload: data,
+    };
 }
 
-function addCourseError (err) {
+function addCourseError(err) {
     return {
-        type : ADD_COURSE_ERROR,
-        payload:err
-    }
+        type: ADD_COURSE_ERROR,
+        payload: err,
+    };
 }
 
-export const addCourse = (courseData)=>{
-    return async (dispatch)=>{
-        dispatch(addCourseStarting())
+export const addCourse = (courseData) => {
+    return async (dispatch) => {
+        dispatch(addCourseStarting());
         try {
-            const response = await api.post('/courses/addCourse',courseData)
-            console.log('response',response)
-            const {data} = response
-            dispatch(addCoursesSucccess(data))
+            const response = await api.post("/courses/addCourse", courseData);
+            console.log("response", response);
+            const { data } = response;
+            dispatch(addCoursesSucccess(data));
         } catch (error) {
-            console.log('error',error.message)
-            dispatch(addCoursesError(error))
+            console.log("error", error.message);
+            dispatch(addCoursesError(error));
         }
-    }
-}
+    };
+};
 
-function updateCourseStarting(){
+function updateCourseStarting() {
     return {
-        type:UPDATE_COURSE_STARTING
-    }
+        type: UPDATE_COURSE_STARTING,
+    };
 }
 
-function updateCourseSuccess(data){
+function updateCourseSuccess(data) {
     return {
-        type:UPDATE_COURSE,
-        payload:data
-    }
+        type: UPDATE_COURSE,
+        payload: data,
+    };
 }
 
-function updateCourseError(err){
+function updateCourseError(err) {
     return {
         type: UPDATE_COURSE_ERROR,
-        payload:err
-    }
+        payload: err,
+    };
 }
 
-export const updateCourse = (courseData)=>{
-    console.log("courseData",courseData)
+export const updateCourse = (courseData) => {
+    console.log("courseData", courseData);
     return async (dispatch) => {
-        dispatch(updateCourseStarting())
+        dispatch(updateCourseStarting());
         try {
-            const response = await api.post('/courses/updateCourse',courseData)
-            console.log('response',response)
-            const {data} = response
-            dispatch(updateCourseSuccess(data))
-            return
+            const response = await api.post(
+                "/courses/updateCourse",
+                courseData,
+            );
+            console.log("response", response);
+            const { data } = response;
+            dispatch(updateCourseSuccess(data));
+            return;
         } catch (error) {
-            dispatch(updateCourseError(error.message))
+            dispatch(updateCourseError(error.message));
         }
-    }
-}
+    };
+};
 
-function deleteCourseStarting (){
+function deleteCourseStarting() {
     return {
-        type:DELETE_COURSE_STARTING
-    }
+        type: DELETE_COURSE_STARTING,
+    };
 }
 
-function deleteCourseSuccess (courseData) {
+function deleteCourseSuccess(courseData) {
     return {
-        type:DELETE_COURSE,
-        payload:courseData
-    }
+        type: DELETE_COURSE,
+        payload: courseData,
+    };
 }
 
-function deleteCourseError(err){
+function deleteCourseError(err) {
     return {
-        type:DELETE_COURSE_ERROR,
-        payload:err
-    }
+        type: DELETE_COURSE_ERROR,
+        payload: err,
+    };
 }
 
-
-export const deleteCourse = (id)=>{
+export const deleteCourse = (id) => {
     return async (dispatch) => {
-        dispatch(deleteCourseStarting())
+        dispatch(deleteCourseStarting());
         try {
-            const response = await api.delete(`/courses/deleteCourse/${id}`)
-            const {data} = response
-            dispatch(deleteCourseSuccess(data))
+            const response = await api.delete(`/courses/deleteCourse/${id}`);
+            const { data } = response;
+            dispatch(deleteCourseSuccess(data));
         } catch (error) {
-            dispatch(deleteCourseError(error.message))
+            dispatch(deleteCourseError(error.message));
         }
-    }
-}
+    };
+};

@@ -12,6 +12,7 @@ authRouter.get("/",(req,res)=>{
 
 authRouter.post("/user/register",UserRegisterController)
 authRouter.post("/user/login",UserController.userLogin)
+authRouter.post('/auth/refresh',UserController.generateNewToken)
 authRouter.post("/user/logout",authentication,UserController.logoutUser)
 
 authRouter.get("/user-verify",authentication,(req,res)=>{
@@ -21,5 +22,5 @@ authRouter.get("/user-verify",authentication,(req,res)=>{
     })
 })
 
-authRouter.get("/user/getProfile",authentication,UserController.getProfile)
+authRouter.get("/user/getUser",authentication,UserController.getUser)
 

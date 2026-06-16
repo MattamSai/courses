@@ -17,7 +17,7 @@ function AddNewCourse({actions,course}) {
     // },[submitData])
 
     let addCourse = ()=>{
-        actions.addCourses(courseData)
+        actions.addCourse(courseData)
     }
     
     

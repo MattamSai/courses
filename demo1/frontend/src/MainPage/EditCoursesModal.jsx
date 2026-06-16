@@ -4,6 +4,7 @@ import * as connectionActions from "../redux/actions/coursesAction.js";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { data } from "react-router-dom";
+import { Loader } from "lucide-react";
 
 function EditCoursesModal({ data, onClose, courses, actions }) {
     console.log("action", actions);
@@ -36,7 +37,14 @@ function EditCoursesModal({ data, onClose, courses, actions }) {
         onClose()
     };
 
-    selectedCourse = (
+    if(courses.loading){
+        selectedCourse=(
+            <Loader/>
+        )
+    }
+
+    if(courses.loaded){
+        selectedCourse = (
         <div className="">
             <div className="flex justify-around">
                 <div className="px-4 py-3 mt-2">Name :</div>
@@ -57,6 +65,7 @@ function EditCoursesModal({ data, onClose, courses, actions }) {
             </div>
         </div>
     );
+    }
 
     return (
         <div>

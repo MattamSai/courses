@@ -9,9 +9,16 @@ api.interceptors.response.use(
     (res) => {
         return res;
     },
-    (error) => {
-        if (!error.response.success) {
-            window.location.href = "/login";
+    async (error) => {
+        const originalRequest = error.config
+        if (!originalRequest.retryRequest && error?.response?.status=== '401') {
+            originalRequest.retryRequest=true
+            try {
+                await api.post("/auth/refresh");
+                return api(originalRequest)
+            } catch {
+                window.location.href = "/login";
+            }
         }
         return Promise.reject(error);
     },

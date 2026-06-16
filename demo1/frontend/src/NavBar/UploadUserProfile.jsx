@@ -3,55 +3,65 @@ import Modal from "../utils/modal";
 import { useState } from "react";
 import { bindActionCreators } from "redux";
 import * as mediaActions from "../redux/actions/mediaActions.js";
+import * as userActions from "../redux/actions/userActions.js";
 import { connect } from "react-redux";
 import { api } from "../utils/api.js";
 
-function UploadUserProfile({ onClick, media, actions }) {
-    const [userName, setUserName] = useState("");
-    const [userEmail, setUserEmail] = useState("");
-    const [uploadProfile,setUploadProfile]=useState("")
+function UploadUserProfile({ onClick, media, user, actions }) {
+    const [userName, setUserName] = useState(user.data.userName);
+    const [userEmail, setUserEmail] = useState(user.data.userEmail);
+    const [uploadProfile, setUploadProfile] = useState("");
 
     let showData = null;
     const profileRef = useRef();
 
     const onProfileUploaded = (e) => {
         const file = e.target.files[0];
-        setUploadProfile(file)
+        setUploadProfile(file);
     };
 
-    const onUpdateSubmited = ()=>{
+    const onUpdateSubmited = () => {
         try {
-            actions.addMedia(uploadProfile)
-            onClick()
+            actions.addMedia(uploadProfile);
+            onClick();
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
 
-    useEffect(()=>{
-        actions.getMedia()
-        console.log('media',media)
-    },[media.loaded])
+    useEffect(() => {
+        actions.getMedia();
+        actions.getUser();
+        console.log("media", media);
+    }, []);
 
-    const mediaData = media?.data[0]
+    const mediaData = media?.data[0];
     showData = (
         <div>
             <div className="m-2">
                 <div>
-                    <button
-                    className="border rounded-4xl bg-blue-400 cursor-pointer"
-                    onClick={() => {
-                        profileRef.current.click();
-                    }}
-                >
-                    Edit
-                </button>
-                    <div>
+                    <div
+                        className="relative w-12 h-12 cursor-pointer group"
+                        onClick={() => profileRef.current?.click()}
+                    >
                         <img
-                        className="h-16 w-12"
-                        src={`http://localhost:3000/${mediaData?.storageKey.replace(/\\/g, "/")}`}
-                        alt="profile"
+                            className="w-12 h-12 rounded-full object-cover cursor-pointer"
+                            src={
+                                mediaData?.storageKey
+                                    ? `http://localhost:3000/${mediaData.storageKey.replace(/\\/g, "/")}`
+                                    : "/src/assets/profileDefault.jpg"
+                            }
+                            alt="profile"
+                            onError={(e) => {
+                                e.currentTarget.onerror = null;
+                                e.currentTarget.src =
+                                    "/src/assets/profileDefault.jpg";
+                            }}
                         />
+
+                        <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                            <span className="text-white text-sm">✏️</span>
+                        </div>
                     </div>
                 </div>
                 <input
@@ -60,7 +70,7 @@ function UploadUserProfile({ onClick, media, actions }) {
                     className="hidden"
                     accept="image/*"
                     onChange={(e) => {
-                        console.log('e',e.target)
+                        console.log("e", e.target);
                         onProfileUploaded(e);
                     }}
                 />
@@ -104,11 +114,15 @@ function UploadUserProfile({ onClick, media, actions }) {
 const mapStatetoprops = (state) => {
     return {
         media: state.getMedia,
+        user: state.getUser,
     };
 };
 const mapDispatchtoprops = (dispatch) => {
     return {
-        actions: bindActionCreators(mediaActions, dispatch),
+        actions: bindActionCreators(
+            { ...mediaActions, ...userActions },
+            dispatch,
+        ),
     };
 };
 

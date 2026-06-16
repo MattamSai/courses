@@ -4,15 +4,11 @@ export default (sequelize) => {
     class UserModel extends Model {
         static associate(models) {
             UserModel.hasMany(models.CourseModel, {
-                foreignKey: "userId",
+                foreignKey: "user_id",
             });
 
             UserModel.hasMany(models.MediaModel, {
-                foreignKey: "updatedBy",
-            });
-
-            UserModel.belongsTo(models.MediaModel, {
-                foreignKey: "profileMediaId",
+                foreignKey: "updated_by",
             });
         }
     }
@@ -43,11 +39,11 @@ export default (sequelize) => {
             },
             isActive: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             }, 
             updatedBy: {
                 type: DataTypes.INTEGER,
-                allowNull: false,
+                allowNull: true,
             },
         },
         {

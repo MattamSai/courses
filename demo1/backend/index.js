@@ -24,6 +24,9 @@ app.use(router)
 
 
 
+await connect.sync({ alter: false });
+
+
 app.listen(process.env.EXPRESS_PORT,()=>{
     console.log(`Server is listening on port ${process.env.EXPRESS_PORT}`)
 })

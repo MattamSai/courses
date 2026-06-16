@@ -21,6 +21,5 @@ Object.values(models).forEach((model)=>{
     }
 })
 
-await connect.sync()
 
 export default models

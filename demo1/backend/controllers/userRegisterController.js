@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt"
 import {UserModel} from "../models/indexModel.js"
 import { generateToken } from "../utils/generateToken.js"
+import jwt from 'jsonwebtoken'
 
 async function UserRegisterController(req,res){
     const {userName,userEmail,userPassword} = req.body
@@ -34,19 +35,47 @@ async function UserRegisterController(req,res){
         userEmail,
         userPassword:hash
     })
-    const token = await generateToken({id:user.id,userEmail:user.userEmail})
-    if (!token) {
-        return res.status(400).send({
+
+    const payload={
+        id:user.id,
+        userEmail:user.userEmail
+    }
+
+    const accessToken = await jwt.sign(payload,process.env.ACCESS_TOKEN_SECRET,{
+        expiresIn:'1h'
+    })
+
+    if (!accessToken) {
+        return res.status(401).send({
             success: false,
-            data: "taken genartion failed",
+            data: "access token genartion failed",
         });
     }
     
-    res.cookie("token",token,{
+    res.cookie("accessToken",accessToken,{
         httpOnly:true,
         secure:false,
-        sameSite:'lax'
+        sameSite:'lax',
+        maxAge: 60 * 60 * 1000
     });
+
+    const refreshToken = await jwt.sign(payload,process.env.REFRESH_TOKEN_SECRET,{
+        expiresIn:'30d'
+    })
+
+    if(!refreshToken){
+        return res.status(401).send({
+            success:false,
+            data:"refresh token failed to generate"
+        })
+    }
+    
+    res.cookie('refreshToken',refreshToken,{
+        httpOnly:true,
+        secure:false,
+        sameSite:'lax',
+         maxAge: 30 * 24 * 60 * 60 * 1000
+    })
 
     return res.status(200).send({
         success:true,

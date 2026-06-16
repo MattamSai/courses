@@ -1,25 +1,31 @@
 import jwt from "jsonwebtoken"
 
-export const authentication = (req,res,next) =>{
-    // console.log('req',req.cookies)
-    const {token}=req.cookies
-    if(!token){
-        return res.status(400).send({
-            success:false,
-            data:"token not found"
-        })
+export const authentication = (req, res, next) => {
+    const { accessToken } = req.cookies;
+
+    if (!accessToken) {
+        return res.status(401).send({
+            success: false,
+            data: "access token not found",
+        });
     }
 
-    const user = jwt.verify(token,process.env.JWT_SECRET_KEY)
-    if(!user){
-        return res.status(400).send({
-            success:false,
-            data:"invalid token"
-        })
+    try {
+        const user = jwt.verify(
+            accessToken,
+            process.env.ACCESS_TOKEN_SECRET
+        );
+
+        req.user = user;
+
+        console.log('user',user)
+
+        next();
+
+    } catch (error) {
+        return res.status(401).send({
+            success: false,
+            data: "invalid or expired access token",
+        });
     }
-
-    // console.log('user',user)
-
-    req.user=user
-    next()
-}
+};
